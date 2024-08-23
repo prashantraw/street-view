@@ -10,6 +10,7 @@ import Slider from 'react-slick';
 import styles from '../styles/ImageSlider.module.css';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { title } from 'process';
 
 const slides = [
   {image: burj_Khalifa, title: 'Burj Khalifa', lat: 25.1972, lng: 55.2744},
@@ -58,7 +59,9 @@ const ImageSlider = (props: any) => {
   };
 
   const handleCardClick = (slide: any) => {
-    props.setSelectedLocation({lat: slide.lat, lng: slide.lng})
+    // props.setSelectedLocation({lat: slide.lat, lng: slide.lng})
+    props.setSelectedLocation(slide.title)
+
   };
 
   return (
@@ -67,7 +70,7 @@ const ImageSlider = (props: any) => {
         <Slider { ...settings}>
           {slides.map((slide) => {
             return (
-              <div className={styles.card} key={slide.title} onClick={handleCardClick}>
+              <div className={styles.card} key={slide.title} onClick={()=>handleCardClick(slide)}>
                 <div>
                   <Image className={styles.sliderImage} src={slide.image} alt={slide.title} />
                 </div>

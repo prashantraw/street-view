@@ -50,7 +50,7 @@ const Home: React.FC = () => {
           <p className={styles.description}>
             Experience the streets from the comfort of your home.
           </p>
-          <ImageSlider setSelectedLocation = {({lat, lng}: {lat: number, lng: number}) => setLocation({ lat, lng })}/>
+          <ImageSlider setSelectedLocation = {(name: string) => fetchCoordinates(name)}/>
           <div className={styles.form}>
             <input
               type="text"
