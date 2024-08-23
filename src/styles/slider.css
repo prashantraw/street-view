@@ -1,0 +1,7 @@
+.slick-slide > div {
+  margin: 10px;
+}
+    
+.slick-next::before, .slick-prev::before {
+  color: var(--button-background-color) !important;
+}

@@ -4,6 +4,7 @@ import { Header } from '../components/Header';
 import StreetViewMap from '../components/StreetViewMap';
 import axios from 'axios';
 import styles from '../styles/Home.module.css';
+import ImageSlider from '@/components/ImageSlider';
 
 const Home: React.FC = () => {
   const [location, setLocation] = useState({ lat: 37.869260, lng: -122.254811 });
@@ -49,6 +50,7 @@ const Home: React.FC = () => {
           <p className={styles.description}>
             Experience the streets from the comfort of your home.
           </p>
+          <ImageSlider setSelectedLocation = {({lat, lng}: {lat: number, lng: number}) => setLocation({ lat, lng })}/>
           <div className={styles.form}>
             <input
               type="text"
