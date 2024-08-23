@@ -1,4 +1,3 @@
-// components/StreetViewMap.tsx
 import React, { useEffect, useState } from 'react';
 import { LoadScript, GoogleMap } from '@react-google-maps/api';
 import styles from '../styles/StreetViewMap.module.css';
@@ -22,7 +21,7 @@ const StreetViewMap: React.FC<StreetViewMapProps> = ({ location }) => {
         {
           position: location,
           pov: { heading: 165, pitch: 0 },
-          zoom: 1
+          zoom: 1,
         }
       );
       map.setStreetView(panorama);
@@ -35,9 +34,11 @@ const StreetViewMap: React.FC<StreetViewMapProps> = ({ location }) => {
         mapContainerClassName={styles.mapContainer}
         center={location}
         zoom={14}
-        onLoad={map => setMap(map)}
+        onLoad={(map) => setMap(map)}
+        mapTypeId="roadmap"
       >
-        <div id="street-view" className={styles.mapContainer} />
+        {/* Ensure this div is properly loaded */}
+        <div id="street-view" style={{ height: '100%', width: '100%' }} />
       </GoogleMap>
     </LoadScript>
   );

@@ -1,0 +1,37 @@
+.header {
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: var(--background-color) 0.3s, color 0.3s;
+  background-color: var(--header-background-color);
+  color: var(--header-background-color);
+  border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.title {
+  margin: 0;
+  line-height: 1.15;
+  font-size: 1.25rem;
+  text-align: center;
+  font-weight: 500;
+  margin: 0;
+  color: var(--text-color);
+}
+
+.themeToggle {
+  cursor: pointer;
+  color: var(--text-color);
+  border: 1px solid var(--text-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0.5rem;
+}
+
+.themeIcon {
+  width: 20px;
+  height: 20px;
+  padding: 0.25rem;
+}

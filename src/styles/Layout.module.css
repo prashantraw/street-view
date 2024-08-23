@@ -1,0 +1,12 @@
+/* src/styles/Layout.module.css */
+
+.container {
+  display: flex;
+}
+  
+.main {
+  margin-left: 200px; /* Match the width of the sidebar */
+  padding: 0 0.5rem;
+  flex: 1;
+}
+  

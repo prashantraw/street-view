@@ -1,30 +1,41 @@
-// pages/index.tsx
 import Head from 'next/head';
 import { useState, useEffect } from 'react';
-import styles from '../styles/Home.module.css';
+import { Header } from '../components/Header';
 import StreetViewMap from '../components/StreetViewMap';
+import axios from 'axios';
+import styles from '../styles/Home.module.css';
 
 const Home: React.FC = () => {
   const [location, setLocation] = useState({ lat: 37.869260, lng: -122.254811 });
-  const [theme, setTheme] = useState('light');
+  const [placeName, setPlaceName] = useState('');
 
-  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setLocation(prevState => ({
-      ...prevState,
-      [name]: parseFloat(value)
-    }));
+  // Fetch coordinates for a place name using Google Places API
+  const fetchCoordinates = async (place: string) => {
+    try {
+      const response = await axios.get(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(
+          place
+        )}&key=${process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}`
+      );
+      if (response.status === 429) {
+        console.error('Too many requests. Please try again later.');
+        alert('Too many requests. Please try again later.');
+        return;
+      }
+      if (response.data.results.length > 0) {
+        const { lat, lng } = response.data.results[0].geometry.location;
+        setLocation({ lat, lng });
+      } else {
+        console.error('No results found for the place');
+      }
+    } catch (error) {
+      console.error('Error fetching coordinates:', error);
+    }
   };
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    document.documentElement.setAttribute('data-theme', newTheme);
+  const handlePlaceSubmit = () => {
+    fetchCoordinates(placeName);
   };
-
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-  }, [theme]);
 
   return (
     <div className={styles.container}>
@@ -33,44 +44,31 @@ const Home: React.FC = () => {
         <meta name="description" content="Integrate Google Street View in a Next.js project" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
-      <header className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Street View</h1>
+      <Header />
+        <main className={styles.main}>
           <p className={styles.description}>
             Experience the streets from the comfort of your home.
           </p>
-        </div>
-        <button className={styles.button} onClick={toggleTheme}>
-          Toggle {theme === 'light' ? 'Dark' : 'Light'} Mode
-        </button>
-      </header>
-
-      <main className={styles.main}>
-        <div className={styles.form}>
-          <input
-            type="number"
-            name="lat"
-            placeholder="Latitude"
-            value={location.lat}
-            onChange={handleLocationChange}
-            className={styles.input}
-          />
-          <input
-            type="number"
-            name="lng"
-            placeholder="Longitude"
-            value={location.lng}
-            onChange={handleLocationChange}
-            className={styles.input}
-          />
-        </div>
-        <div className={styles.mapContainer}>
-          <StreetViewMap location={location} />
-        </div>
-      </main>
+          <div className={styles.form}>
+            <input
+              type="text"
+              name="placeName"
+              placeholder="Enter a place name"
+              value={placeName}
+              onChange={(e) => setPlaceName(e.target.value)}
+              className={styles.input}
+            />
+            <button onClick={handlePlaceSubmit} className={styles.button}>
+              Show Street View
+            </button>
+          </div>
+          <div className={styles.mapContainer}>
+            <StreetViewMap location={location} />
+          </div>
+        </main>
     </div>
   );
 };
 
 export default Home;
+ 
