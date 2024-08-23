@@ -2,8 +2,13 @@
 
 import Sidebar from './Sidebar';
 import styles from '../styles/Layout.module.css';
+import { ReactNode } from 'react';
 
-const Layout: React.FC = ({ children }) => {
+interface LayoutProps {
+  children: ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <div className={styles.container}>
       <Sidebar />
